@@ -1,89 +1,163 @@
 # TCP vs UDP File Transfer System
+
+A systems-level networking project that implements and compares reliable (TCP-based) and unreliable (UDP-based) file transfer mechanisms using Python socket programming.
+
 1)Implemented and evaluated TCP vs UDP file transfer protocols with performance benchmarking and system-level analysis
-2)A systems-level networking project that implements and evaluates reliable (TCP) and unreliable (UDP) file transfer protocols, highlighting trade-offs between    reliability, latency, and throughput.
 
-##  Motivation
 
-Modern distributed systems rely heavily on efficient data transfer. While TCP guarantees reliability, UDP offers lower latency but no delivery guarantees.
+## Overview
 
-This project explores:
+This project explores the fundamental differences between TCP and UDP by building a file transfer system for both protocols and analyzing their behavior under different conditions.
 
-* When reliability is necessary
-* When speed is more important
-* How protocol design impacts performance
+The goal was to understand how reliability, ordering, and performance vary across protocols, and how design choices impact real-world systems.
 
-##  Key Concepts
 
-* Reliable Data Transfer (RDT)
-* Acknowledgment & Retransmission
-* Packet Loss Handling
+##  Key Concepts Covered
+
+* Reliable vs Unreliable Data Transfer
+* Connection-Oriented (TCP) vs Connectionless (UDP) Communication
+* Packet Loss and Data Integrity
+* Acknowledgment and Retransmission
 * Throughput vs Latency Trade-offs
-* Connection-oriented vs Connectionless Communication
 
-##  System Architecture
+---
 
-### TCP Mode
+##  Project Structure
 
-* Connection-oriented communication
-* Guaranteed delivery
-* Ordered packets
-* Built-in congestion control
+```
+tcp-vs-udp-file-transfer-system/
+│── src/
+│   ├── tcp/
+│   │   ├── tcpServer.py
+│   │   ├── tcpClient.py
+│   │   ├── tcpCache.py
+│   ├── udp/
+│   │   ├── udpServer.py
+│   │   ├── udpClient.py
+│   │   ├── udpCache.py
+│── experiments/
+│   ├── tcp_e/
+│   ├── udp_e/
+│── README.md
+│── requirements.txt
+```
 
-### UDP Mode
+---
 
-* Connectionless communication
-* No delivery guarantees
-* Faster transmission
-* Custom handling required (if reliability needed)
+##  Implementation Details
 
+###  TCP Implementation
 
-##  Features
+* Uses connection-oriented sockets
+* Ensures reliable delivery of files
+* Maintains ordering of packets
+* Handles complete file reconstruction without loss
 
-* File transfer using TCP and UDP
-* Modular client-server implementation
-* Performance comparison framework
-* Extensible design for experimentation
+###  UDP Implementation
 
+* Uses connectionless sockets
+* Faster transmission with minimal overhead
+* No guarantee of delivery or order
+* Demonstrates packet loss scenarios
+
+###  Caching Layer
+
+* Implemented caching for transferred files
+* Improves efficiency for repeated transfers
+* Reduces redundant network usage
+
+---
+
+##  Experiments
+
+The project includes experimental setups for both TCP and UDP under:
+
+* Upload scenarios
+* Download scenarios
+* Client cache usage
+
+Located in:
+
+```
+experiments/tcp_e/
+experiments/udp_e/
+```
+
+---
+
+##  Observations
+
+* TCP provides **100% reliability** but introduces overhead due to acknowledgments and retransmissions
+* UDP achieves **lower latency** but may result in packet loss
+* For applications like file transfer, TCP is more suitable
+* For real-time systems (e.g., streaming), UDP is often preferred
+
+---
+
+##  How to Run
+
+###  TCP
+
+Start server:
+
+```bash
+python src/tcp/tcpServer.py
+```
+
+Start client:
+
+```bash
+python src/tcp/tcpClient.py
+```
+
+---
+
+###  UDP
+
+Start server:
+
+```bash
+python src/udp/udpServer.py
+```
+
+Start client:
+
+```bash
+python src/udp/udpClient.py
+```
+
+---
 
 ##  Tech Stack
 
 * Python
 * Socket Programming
-* TCP/UDP Networking
+* TCP/UDP Protocols
 
+---
 
-##  Experimental Analysis - structure
+##  Design Trade-offs
 
-| Protocol | Transfer Time (s) | Reliability |
-| -------- | ----------------- | ----------- |
-| TCP      |                   | %        |
-| UDP      |                   | %         |
+| Aspect      | TCP        | UDP            |
+| ----------- | ---------- | -------------- |
+| Reliability | High       | Low            |
+| Speed       | Moderate   | High           |
+| Ordering    | Guaranteed | Not Guaranteed |
+| Overhead    | High       | Low            |
 
-### Observations
+---
 
-* TCP ensures reliability but introduces overhead
-* UDP is faster but may result in packet loss
-* Trade-offs depend on application (e.g., streaming vs file transfer)
+##  Applications
 
-##  How to Run
+* Distributed Systems Communication
+* File Transfer Systems
+* Real-time Streaming Systems
+* Network Protocol Research
 
-### TCP
+---
 
-```bash
-python src/tcp/server.py
-python src/tcp/client.py
-```
+Developed as part of a team project and later refactored and structured for clarity and presentation.
 
-### UDP
+* Shreyas K S
+* Teammate(s)
 
-```bash
-python src/udp/server.py
-python src/udp/client.py
-```
-
-## Applications
-
-* Distributed systems communication
-* Real-time streaming systems (UDP)
-* Reliable file transfer systems (TCP)
-* Network protocol experimentation
